@@ -186,6 +186,8 @@ function init_ui ()
     $('#modal_select_pservices').on ('hide.bs.modal', on_hide_select_pservices_modal);
     $('#button-close').click (on_button_close_click);
 
+    log_msg ("[init_ui] setting sticky tabs...");
+
     // make tabs sticky
     // https://stackoverflow.com/questions/10523433/how-do-i-keep-the-current-tab-active-with-twitter-bootstrap-after-a-page-reload
     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
@@ -199,8 +201,11 @@ function init_ui ()
         $('[href="' + lastTab + '"]').tab('show');
     }
 
+    log_msg ("[init_ui] loading selected services...");
     reload_selected_services ();
+    log_msg ("[init_ui] loading selected pricing services...");
     reload_selected_pservices ();
+    log_msg ("[init_ui] loading all services...");
     reload_all_services ();
 
     log_msg ("[init_ui] done.");

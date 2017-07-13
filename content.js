@@ -176,13 +176,6 @@ $(document).ready (function () {
 
         $('body').append (_aws_tab);
         $('body').append (_aws_sidebar);
-
-        var fs = document.createElement('style');
-        fs.type = 'text/css';
-        fs.textContent = '@font-face { font-family: aws-sidebar; src: url("'
-            + chrome.extension.getURL('fonts/aws-sidebar.woff')
-            + '"); }';
-        document.head.appendChild(fs);
     }
 
     function fix_iframe_height () {
