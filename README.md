@@ -1,4 +1,4 @@
-#AWS Sidebar for Chrome
+# AWS Sidebar for Chrome
 
 A chrome extension to help you navigate the AWS console a little more efficiently.
 
