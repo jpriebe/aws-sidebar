@@ -156,12 +156,6 @@ function on_hide_select_pservices_modal ()
     reload_selected_pservices ();
 }
 
-function log_msg (msg)
-{
-    var p = $('<p>' + msg + '</p>');
-    $('#log').append (p);
-}
-
 function save_settings ()
 {
     window.parent.postMessage ({
@@ -181,12 +175,12 @@ function on_button_close_click ()
 
 function init_ui ()
 {
-    log_msg ("[init_ui] entering...");
+    console.log ("[init_ui] entering...");
     $('#modal_select_services').on ('hide.bs.modal', on_hide_select_services_modal);
     $('#modal_select_pservices').on ('hide.bs.modal', on_hide_select_pservices_modal);
     $('#button-close').click (on_button_close_click);
 
-    log_msg ("[init_ui] setting sticky tabs...");
+    console.log ("[init_ui] setting sticky tabs...");
 
     // make tabs sticky
     // https://stackoverflow.com/questions/10523433/how-do-i-keep-the-current-tab-active-with-twitter-bootstrap-after-a-page-reload
@@ -201,14 +195,14 @@ function init_ui ()
         $('[href="' + lastTab + '"]').tab('show');
     }
 
-    log_msg ("[init_ui] loading selected services...");
+    console.log ("[init_ui] loading selected services...");
     reload_selected_services ();
-    log_msg ("[init_ui] loading selected pricing services...");
+    console.log ("[init_ui] loading selected pricing services...");
     reload_selected_pservices ();
-    log_msg ("[init_ui] loading all services...");
+    console.log ("[init_ui] loading all services...");
     reload_all_services ();
 
-    log_msg ("[init_ui] done.");
+    console.log ("[init_ui] done.");
 }
 
 function setMessageListener ()
