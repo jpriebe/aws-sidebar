@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AWS Sidebar</title>
+    <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="aws.css">
+    <link rel="stylesheet" href="icon-styles.css">
+</head>
+<body class="aws-sidebar">
+<div class="title-bar">
+    <span class="icon-button icon-aws"></span>&nbsp;AWS Sidebar
+    <button id="button-close" type="button" class="close" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#services" role="tab">Services</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#pricing" role="tab">Pricing</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#log" role="tab">Log</a>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div id="services" class="tab-pane fade show active" role="tabpanel">
+        <div id="selected-services">
+        </div>
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal_select_services" aria-label="Settings">
+        </button>
+    </div>
+    <div id="pricing" class="tab-pane fade" role="tabpanel">
+        <div id="selected-pservices">
+        </div>
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal_select_pservices" aria-label="Settings">
+        </button>
+    </div>
+    <div id="log" class="tab-pane fade" role="tabpanel">
+    </div>
+</div>
+
+<div class="modal fade" id="modal_select_services" tabindex="-1" role="dialog"
+     aria-labelledby="modal_label_select_services" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_label_select_services">Select services</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-select-services"></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_select_pservices" tabindex="-1" role="dialog"
+     aria-labelledby="modal_label_select_pservices" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal_label_select_pservices">Select services</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-select-pservices"></form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="bootstrap/jquery-3.1.1.slim.min.js"></script>
+<script src="bootstrap/tether.min.js"></script>
+<script src="bootstrap/bootstrap.min.js"></script>
+<script src="aws_services.js"></script>
+<script src="aws.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+.aws-sidebar .list-group-item {
+    padding: .25rem 1.25rem;
+}
+
+.aws-sidebar .icon-button {
+    height: 24px;
+    width: 24px;
+    padding: 4px;
+
+    border: none;
+    background: none;
+}
+
+#selected-services, #selected-pservices {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.aws-sidebar .button-bottom-right {
+    display: block;
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+}
+
+.aws-sidebar .tab-content {
+    margin: 4px;
+}
+
+.aws-sidebar .list-group {
+    margin: 4px;
+}
+
+.aws-sidebar .nav-tabs {
+    margin: 4px;
+}
+
+#button-close {
+    display: block;
+    float: right;
+
+    color: #fff;
+    text-shadow: 0 1px 0 #000;
+    opacity: 0.9;
+}
+
+#log p {
+    font-size: 0.6rem;
+    margin-bottom: 0.15rem;
+}
+
+.title-bar {
+    height: 40px;
+    padding: 8px;
+    background-color: #fc9800;
+    color: #fff;
+    margin-bottom: 4px;
+}

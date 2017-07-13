@@ -1,0 +1,35 @@
+#AWSsidebar {
+  position: fixed;
+  clear: both;
+  width: 300px;
+  height: 100%;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(0,0,0,1);
+  padding: 0px;
+  margin: 0px;
+  color: #335500;
+  z-index: 999999;
+  right: -700px;
+  top: 0;
+  background-color: #ffffff !important;
+}
+#AWStab {
+  background-color: #fc9800;
+  clear: both;
+  color: #fff;
+  cursor: pointer;
+  font-family: Verdana;
+  font-size: 10pt;
+  font-weight: bold;
+  box-shadow: 0 0 2px rgba(0,0,0,0.6);
+  position: fixed;
+  right: 0;
+  text-align: center;
+  top: 10%;
+  width: 24px !important;
+  height: 126px !important;
+  z-index: 999999;
+}
+#AWStab:hover {
+  border-right: 4px solid #fc9800;
+}
