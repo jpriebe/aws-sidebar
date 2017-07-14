@@ -13,14 +13,20 @@
 
 - delay load of instance info until the tab is selected; refresh every time the tab is selected?
 
-- reload instances after editing the form
-
 - fix jiggly tab graphic
 
-- fine-tune the display of the instance info; add special hyperlinks (netdata, grafana, ssh, etc.)
+- instance details: security groups, tags
+
+- add special hyperlinks (netdata, grafana, ssh, etc.)
 
 - add other resources (ELB?)
 
 - highlight instances on hover
 
 - validate all filter input, etc.
+
+- dark theme?
+
+- opacity of panel?
+
+- allow customization of which fields are shown in the details view?

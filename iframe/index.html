@@ -25,7 +25,7 @@
         <a class="nav-link" data-toggle="tab" href="#tabpanel-pricing" role="tab">Pricing</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#tabpanel-resources" role="tab">Resources</a>
+        <a class="nav-link" data-toggle="tab" id="tab-instances" href="#tabpanel-instances" role="tab">Instances</a>
     </li>
 </ul>
 
@@ -42,8 +42,15 @@
         <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-pservices" aria-label="Settings">
         </button>
     </div>
-    <div id="tabpanel-resources" class="tab-pane fade" role="tabpanel">
-        <div id="resources">
+    <div id="tabpanel-instances" class="tab-pane fade" role="tabpanel">
+        <div class="input-group stylish-input-group">
+            <input type="text" id="instances-filter" class="form-control" placeholder="" >
+            <span class="input-group-addon">
+                <button role="button" class="icon-button icon-search" aria-hidden="true" aria-label="Filter">
+                </button>
+            </span>
+        </div>
+        <div id="instances">
         </div>
         <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-aws-settings" aria-label="Settings">
         </button>
@@ -107,7 +114,7 @@
                         <small id="secret_access_key_help" class="form-text text-muted">Get your secret access key rom the IAM console.  <a href=""http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
                     </div>
                     <div class="form-group">
-                        <label for="region">Region</label>
+                        <label for="aws_region">Region</label>
                         <input type="text" class="form-control" id="aws_region" aria-describedby="secret_access_key_help" placeholder="">
                         <small id="region_help" class="form-text text-muted">AWS region for your instances, e.g. us-east-1.</small>
                     </div>
@@ -163,12 +170,13 @@
     </div>
 </div>
 
-<script src="aws-sdk-2.84.0.js"></script>
+<script src="moment.js"></script>
+<script src="aws-sdk-2.84.0.min.js"></script>
 <script src="bootstrap/jquery-3.2.1.min.js"></script>
 <script src="bootstrap/tether.min.js"></script>
 <script src="bootstrap/bootstrap.min.js"></script>
-<script src="aws_resource_info.js"></script>
-<script src="aws_resource_panel.js"></script>
+<script src="aws_info.js"></script>
+<script src="aws_instances_panel.js"></script>
 <script src="aws_services.js"></script>
 <script src="aws.js"></script>
 </body>

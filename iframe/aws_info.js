@@ -1,4 +1,4 @@
-function aws_resource_info () {
+function aws_info () {
     var _self = this;
     var _instances = [];
     var _instance_timestamp = 0;
@@ -93,19 +93,56 @@ function aws_resource_info () {
                 var info = {};
 
                 var ins = data.Reservations[i].Instances[0];
+
+                console.log ("instance: ", ins);
+
                 info.instance_id = ins.InstanceId;
                 info.state = ins.State.Name;
                 info.instance_type = ins.InstanceType;
                 info.private_ip_address = ins.PrivateIpAddress;
+                info.launch_time = ins.LaunchTime;
+                info.image_id = ins.ImageId;
+                info.az = ins.Placement.AvailabilityZone;
+
+                if (typeof ins.PublicIpAddress === 'undefined')
+                {
+                    info.public_ip_address = '';
+                }
+                else
+                {
+                    info.public_ip_address = ins.PublicIpAddress;
+                }
 
                 info.tags = {};
-                for(var j in ins.Tags){
+                info.name = '<unknown>';
+                info.asg = '';
+                for (var j = 0; j < ins.Tags.length; j++) {
+                    if (ins.Tags[j].Key === 'Name')
+                    {
+                        info.name = ins.Tags[j].Value;
+                        continue;
+                    }
+                    if (ins.Tags[j].Key === 'aws:autoscaling:groupName')
+                    {
+                        info.asg = ins.Tags[j].Value;
+                        continue;
+                    }
+
                     info.tags[ins.Tags[j].Key] = ins.Tags[j].Value;
                 }
 
-                info.name = (typeof info.tags['Name'] === 'undefined') ? '<unknown>' : info.tags['Name'];
+                info.security_groups = [];
+                for (j = 0; j < ins.SecurityGroups.length; j++)
+                {
+                    var g = ins.SecurityGroups[j];
+                    info.security_groups.push ({
+                        'name': g.GroupName,
+                        'id': g.GroupId
+                    });
+                }
 
-                console.debug ("testing instance: ", ins);
+                console.debug ("info: ", info);
+
                 if (test_tag_filter (_data_tag_filter, info) && test_state_filter (_data_state_filter, info))
                 {
                     console.debug ("keeper");

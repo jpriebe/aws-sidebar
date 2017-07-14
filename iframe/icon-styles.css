@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "aws-sidebar";
-  src: url("fonts/aws-sidebar.woff") format("woff");
+  src: url("fonts/aws-sidebar-v2.woff") format("woff");
   font-weight: normal;
   font-style: normal;
 
@@ -42,4 +42,7 @@
 }
 .icon-aws:before {
   content: "\63";
+}
+.icon-search:before {
+  content: "\64";
 }

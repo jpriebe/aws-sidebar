@@ -1,7 +1,7 @@
 var all_pservices = [];
 var all_services_lookup = {};
 var _settings = null;
-var _resource_panel = null;
+var _instances_panel = null;
 
 function reload_all_services ()
 {
@@ -181,6 +181,12 @@ function init_ui ()
     $('#modal-select-pservices').on ('hide.bs.modal', on_hide_select_pservices_modal);
     $('#button-close').click (on_button_close_click);
 
+    _instances_panel = new aws_instances_panel ();
+
+    $('#tab-instances').on('shown.bs.tab', function (e) {
+        _instances_panel.init (_settings);
+    });
+
     console.log ("[init_ui] setting sticky tabs...");
 
     // make tabs sticky
@@ -203,8 +209,7 @@ function init_ui ()
     console.log ("[init_ui] loading all services...");
     reload_all_services ();
 
-    _resource_panel = new aws_resource_panel ();
-    _resource_panel.init (_settings);
+
 
     console.log ("[init_ui] done.");
 }
