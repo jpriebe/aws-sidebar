@@ -9,6 +9,7 @@
       ],
       "js": [
         "iframe/bootstrap/jquery-3.2.1.min.js",
+        "settings_manager.js",
         "content.js"
       ],
       "matches": [ 
@@ -19,7 +20,7 @@
       ]
    } ],
   "options_ui": {
-    "page": "options/options.html",
+    "page": "options.html",
     "chrome_style": true
   },
   "web_accessible_resources": [

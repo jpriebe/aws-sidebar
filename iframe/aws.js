@@ -1,15 +1,16 @@
 var all_pservices = [];
 var all_services_lookup = {};
 var _settings = null;
+var _resource_panel = null;
 
 function reload_all_services ()
 {
     var i;
 
     var sel = {};
-    for (i = 0; i < _settings.selected_services.length; i++)
+    for (i = 0; i < _settings.sync.selected_services.length; i++)
     {
-        var id = _settings.selected_services[i];
+        var id = _settings.sync.selected_services[i];
 
         sel[id] = 1;
     }
@@ -42,9 +43,9 @@ function reload_all_services ()
 
 
     sel = {};
-    for (i = 0; i < _settings.selected_pservices.length; i++)
+    for (i = 0; i < _settings.sync.selected_pservices.length; i++)
     {
-        var id = _settings.selected_pservices[i];
+        var id = _settings.sync.selected_pservices[i];
 
         sel[id] = 1;
     }
@@ -81,9 +82,9 @@ function reload_all_services ()
 function reload_selected_services ()
 {
     var div = $("<div />", { class: 'list-group' });
-    for (var i = 0; i < _settings.selected_services.length; i++)
+    for (var i = 0; i < _settings.sync.selected_services.length; i++)
     {
-        var id =  _settings.selected_services[i];
+        var id =  _settings.sync.selected_services[i];
         var name = all_services_lookup[id][1];
         var url = all_services_lookup[id][3];
         var e = $("<a>", {
@@ -103,9 +104,9 @@ function reload_selected_services ()
 function reload_selected_pservices ()
 {
     var div = $("<div />", { class: 'list-group' });
-    for (var i = 0; i < _settings.selected_pservices.length; i++)
+    for (var i = 0; i < _settings.sync.selected_pservices.length; i++)
     {
-        var id =  _settings.selected_pservices[i];
+        var id =  _settings.sync.selected_pservices[i];
         var name = all_services_lookup[id][1];
         var url = all_services_lookup[id][3];
         var e = $("<a>", {
@@ -123,14 +124,14 @@ function reload_selected_pservices ()
 
 function on_hide_select_services_modal ()
 {
-    _settings.selected_services = [];
+    _settings.sync.selected_services = [];
 
     for (var i = 0; i < all_services.length; i++)
     {
         var selector = "#form-select-services input[name='service_" + i + "']";
         if ($(selector).is(':checked'))
         {
-            _settings.selected_services.push (all_services[i][0]);
+            _settings.sync.selected_services.push (all_services[i][0]);
         }
     }
 
@@ -141,14 +142,14 @@ function on_hide_select_services_modal ()
 
 function on_hide_select_pservices_modal ()
 {
-    _settings.selected_pservices = [];
+    _settings.sync.selected_pservices = [];
 
     for (var i = 0; i < all_pservices.length; i++)
     {
         var selector = "#form-select-pservices input[name='service_" + i + "']";
         if ($(selector).is(':checked'))
         {
-            _settings.selected_pservices.push (all_pservices[i][0]);
+            _settings.sync.selected_pservices.push (all_pservices[i][0]);
         }
     }
 
@@ -176,8 +177,8 @@ function on_button_close_click ()
 function init_ui ()
 {
     console.log ("[init_ui] entering...");
-    $('#modal_select_services').on ('hide.bs.modal', on_hide_select_services_modal);
-    $('#modal_select_pservices').on ('hide.bs.modal', on_hide_select_pservices_modal);
+    $('#modal-select-services').on ('hide.bs.modal', on_hide_select_services_modal);
+    $('#modal-select-pservices').on ('hide.bs.modal', on_hide_select_pservices_modal);
     $('#button-close').click (on_button_close_click);
 
     console.log ("[init_ui] setting sticky tabs...");
@@ -202,16 +203,21 @@ function init_ui ()
     console.log ("[init_ui] loading all services...");
     reload_all_services ();
 
+    _resource_panel = new aws_resource_panel ();
+    _resource_panel.init (_settings);
+
     console.log ("[init_ui] done.");
 }
 
-function setMessageListener ()
+function set_message_listener ()
 {
     window.addEventListener ('message', function (e) {
         switch (e.data.action)
         {
             case 'get_settings_result':
                 _settings = e.data.payload;
+                console.log ("[get_settings_result] got settings", _settings);
+
                 init_ui ();
                 break;
         }
@@ -242,8 +248,9 @@ function process_services ()
 function init ()
 {
     process_services ();
-    setMessageListener ();
+    set_message_listener ();
 
+    console.log ("[init] calling get_settings...");
     window.parent.postMessage({
         action: 'get_settings',
         payload: null

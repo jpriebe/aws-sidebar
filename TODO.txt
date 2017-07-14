@@ -1,0 +1,26 @@
+
+- break services / pservices into separate panel JS modules
+
+- build quick filter UI for AWS panel
+
+- scrolling bugs with list groups, position of settings button
+
+- manage cached instance info
+
+- change "Resources" to "Instances" (UI and code?)
+
+- if sidebar is closed on init, delay load of all contents
+
+- delay load of instance info until the tab is selected; refresh every time the tab is selected?
+
+- reload instances after editing the form
+
+- fix jiggly tab graphic
+
+- fine-tune the display of the instance info; add special hyperlinks (netdata, grafana, ssh, etc.)
+
+- add other resources (ELB?)
+
+- highlight instances on hover
+
+- validate all filter input, etc.

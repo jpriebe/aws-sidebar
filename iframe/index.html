@@ -19,34 +19,43 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#services" role="tab">Services</a>
+        <a class="nav-link active" data-toggle="tab" href="#tabpanel-services" role="tab">Services</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#pricing" role="tab">Pricing</a>
+        <a class="nav-link" data-toggle="tab" href="#tabpanel-pricing" role="tab">Pricing</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tabpanel-resources" role="tab">Resources</a>
     </li>
 </ul>
 
 <div class="tab-content">
-    <div id="services" class="tab-pane fade show active" role="tabpanel">
+    <div id="tabpanel-services" class="tab-pane fade show active" role="tabpanel">
         <div id="selected-services">
         </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal_select_services" aria-label="Settings">
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-services" aria-label="Settings">
         </button>
     </div>
-    <div id="pricing" class="tab-pane fade" role="tabpanel">
+    <div id="tabpanel-pricing" class="tab-pane fade" role="tabpanel">
         <div id="selected-pservices">
         </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal_select_pservices" aria-label="Settings">
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-pservices" aria-label="Settings">
+        </button>
+    </div>
+    <div id="tabpanel-resources" class="tab-pane fade" role="tabpanel">
+        <div id="resources">
+        </div>
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-aws-settings" aria-label="Settings">
         </button>
     </div>
 </div>
 
-<div class="modal fade" id="modal_select_services" tabindex="-1" role="dialog"
-     aria-labelledby="modal_label_select_services" aria-hidden="true">
+<div class="modal fade" id="modal-select-services" tabindex="-1" role="dialog"
+     aria-labelledby="modal-label-select-services" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal_label_select_services">Select services</h5>
+                <h5 class="modal-title" id="modal-label-select-services">Select services</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -58,12 +67,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="modal_select_pservices" tabindex="-1" role="dialog"
-     aria-labelledby="modal_label_select_pservices" aria-hidden="true">
+<div class="modal fade" id="modal-select-pservices" tabindex="-1" role="dialog"
+     aria-labelledby="modal-label-select-pservices" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal_label_select_pservices">Select services</h5>
+                <h5 class="modal-title" id="modal-label-select-pservices">Select services</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -75,9 +84,91 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal-aws-settings" tabindex="-1" role="dialog"
+     aria-labelledby="modal-label-aws-settings" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-label-aws-settings">AWS Settings</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-aws-settings">
+                    <div class="form-group">
+                        <label for="access_key_id">AWS Access Key ID</label>
+                        <input type="text" class="form-control" id="access_key_id" aria-describedby="access_key_id_help" placeholder="">
+                        <small id="access_key_id_help" class="form-text text-muted">Get your access key ID from the IAM console.  <a href=""http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="secret_access_key">AWS Secret Access Key</label>
+                        <input type="text" class="form-control" id="secret_access_key" aria-describedby="secret_access_key_help" placeholder="">
+                        <small id="secret_access_key_help" class="form-text text-muted">Get your secret access key rom the IAM console.  <a href=""http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="region">Region</label>
+                        <input type="text" class="form-control" id="aws_region" aria-describedby="secret_access_key_help" placeholder="">
+                        <small id="region_help" class="form-text text-muted">AWS region for your instances, e.g. us-east-1.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="instance_tag_filter">Instance Tag filters</label>
+                        <input type="text" class="form-control" id="instance_tag_filter" aria-describedby="instance_tag_filter_help" placeholder="">
+                        <small id="instance_tag_filter_help" class="form-text text-muted">This defines which EC2 instances will be loaded.  Enter a list of TAGNAME=REGEX filter rules, semicolon separated.  Hosts' tags must match all rules to be included.  Example: Environment=prod|test;Owner=^smith$</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Instance State filter</label>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="instance_state_filter" value="pending">
+                                Pending
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="instance_state_filter" value="running">
+                                Running
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="instance_state_filter" value="shutting-down">
+                                Shutting down
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="instance_state_filter" value="terminated">
+                                Terminated
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="instance_state_filter" value="stopping">
+                                Stopping
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="instance_state_filter" value="stopped">
+                                Stopped
+                            </label>
+                        </div>
+                        <small id="instance_state_filter_help" class="form-text text-muted">This defines which EC2 instances will be loaded based on their current state.</small>
+                    </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="aws-sdk-2.84.0.js"></script>
 <script src="bootstrap/jquery-3.2.1.min.js"></script>
 <script src="bootstrap/tether.min.js"></script>
 <script src="bootstrap/bootstrap.min.js"></script>
+<script src="aws_resource_info.js"></script>
+<script src="aws_resource_panel.js"></script>
 <script src="aws_services.js"></script>
 <script src="aws.js"></script>
 </body>

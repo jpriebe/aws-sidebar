@@ -1,3 +1,7 @@
+.aws-sidebar .list-group {
+    overflow: scroll;
+}
+
 .aws-sidebar .list-group-item {
     padding: .25rem 1.25rem;
 }
@@ -34,6 +38,42 @@
 .aws-sidebar .nav-tabs {
     margin: 4px;
 }
+
+.small-card {
+    border-radius: 0;
+    margin-bottom: -1px;
+}
+
+.small-card:first-child {
+    border-top-right-radius: .25rem;
+    border-top-left-radius: .25rem;
+}
+
+.small-card:last-child {
+    border-bottom-right-radius: .25rem;
+    border-bottom-left-radius: .25rem;
+}
+
+.small-card h5 {
+    font-size: 1rem;
+}
+
+.small-card .card-header {
+    padding: .25rem 1.25rem;
+    background-color: #fff;
+    border-bottom: none;
+}
+
+.small-card .card-header .instance-details-header {
+    font-size: 0.65rem;
+    -webkit-margin-after: 0;
+}
+
+.small-card .card-block {
+    padding: .25rem 1.25rem;;
+    font-size: 0.8rem;
+}
+
 
 #button-close {
     display: block;

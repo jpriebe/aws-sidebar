@@ -1,7 +1,5 @@
-var _settings = {
-    selected_services: [],
-    selected_pservices: [],
-};
+
+var _settings_mgr = null;
 
 var _ui_settings = {
     sidebar_open: false
@@ -37,51 +35,26 @@ $(document).ready (function () {
             return;
         }
 
-        chrome.storage.local.get ('ui_settings', function (items) {
-            if (typeof items.ui_settings !== 'undefined')
-            {
-                console.log ('[init] ui settings loaded', items);
-                _ui_settings = items.ui_settings;
-            }
-
-            chrome.storage.sync.get ('settings', function (items) {
-                if (typeof items.settings !== 'undefined')
+        _settings_mgr = new settings_manager ();
+        _settings_mgr.init (function () {
+            chrome.storage.local.get ('ui_settings', function (items) {
+                if (typeof items.ui_settings !== 'undefined')
                 {
-                    console.log ('[init] settings loaded', items);
-                    load_settings (items.settings);
+                    console.log ('[init] ui settings loaded', items);
+                    _ui_settings = items.ui_settings;
                 }
 
-                setMessageListener ();
+                set_message_listener ();
                 create_sidebar ();
-
-            });
+             });
         });
     }
     
-    function load_settings (s)
-    {
-        if (typeof s.selected_services !== 'undefined')
-        {
-            _settings.selected_services = s.selected_services;
-        }
-        if (typeof s.selected_pservices !== 'undefined')
-        {
-            _settings.selected_pservices = s.selected_pservices;
-        }
-    }
-
-    function setMessageListener ()
+    function set_message_listener ()
     {
         window.addEventListener ('message', function (e) {
             switch (e.data.action)
             {
-                case 'get_settings':
-                    iframe_get_settings ();
-                    break;
-                case 'save_settings':
-                    _settings = e.data.payload;
-                    save_settings ();
-                    break;
                 case 'close_sidebar':
                     toggle_sidebar();
                     break;
@@ -89,30 +62,6 @@ $(document).ready (function () {
         }, false);
     }
 
-    function iframe_get_settings ()
-    {
-        console.log ("[iframe_get_settings] sending settings to iframe...");
-        var e = document.getElementById ('AWScontent');
-        e.contentWindow.postMessage ({
-            action: 'get_settings_result',
-            payload: _settings
-        }, '*');
-    }
-
-    function save_settings ()
-    {
-        console.log ("[save_settings] saving settings...");
-        chrome.storage.sync.set ({ 'settings' : _settings }, function () {
-            if (typeof chrome.runtime.lastError !== 'undefined')
-            {
-                console.log ('[save_settings] Error saving settings: ' + chrome.runtime.lastError);
-            }
-            else
-            {
-                console.log ('[save_settings] settings saved successfully.');
-            }
-        });
-    }
 
     function save_ui_settings ()
     {
