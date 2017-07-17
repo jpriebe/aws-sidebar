@@ -97,11 +97,7 @@ $(document).ready (function () {
 
         $(window).resize (fix_iframe_height);
 
-        _aws_tab = $("<div><img src=\""
-                + chrome.extension.getURL ("images/tab.png")
-                + "\" srcset=\"" + chrome.extension.getURL ("images/tab.png") + " 1x,"
-                + chrome.extension.getURL ("images/tab-2x.png") + " 2x"
-                + "\" alt=\"AWS Sidebar\" /></div>").attr ({'id': 'AWStab'});
+        _aws_tab = $("<div id=\"AWStab\">AWS Sidebar</div>");
 
         _aws_tab.click (toggle_sidebar);
 
