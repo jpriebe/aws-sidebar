@@ -74,16 +74,37 @@ function aws_info () {
 
     _self.list_instances = function (callback)
     {
+        console.debug ("[aws_info.list_instances] entering...");
+
         var ec2 = new AWS.EC2();
+
+        _instance_timestamp = localStorage.getItem ('aws.ec2.instance_timestamp');
+        var ins_str = localStorage.getItem ('aws.ec2.instances');
+        if (ins_str !== null)
+        {
+            try
+            {
+                _instances = JSON.parse (ins_str);
+            }
+            catch (e)
+            {
+                _instances = [];
+                _instance_timestamp = 0;
+            }
+        }
+
+        console.debug ("[aws_info.list_instances] _instance_timestamp: ", _instance_timestamp);
+        console.debug ("[aws_info.list_instances] _instances: ", _instances);
 
         // @TODO - save instances and timestamp somewhere that they can survive a page reload
         if (_instance_timestamp > Date.now() - 300000)
         {
+            console.log ("[aws_info.list_instances] using cached instance data: ", _instances);
             callback (_instances);
             return;
         }
 
-        console.debug ("[list_instances] describeInstances()...");
+        console.log ("[aws_info.list_instances] retrieving instance data from EC2...");
 
         ec2.describeInstances({}, function(err, data) {
             if (err) return console.debug(err, err.stack);
@@ -164,6 +185,11 @@ function aws_info () {
                 // names must be equal
                 return 0;
             });
+
+            _instance_timestamp = Date.now ();
+
+            localStorage.setItem ('aws.ec2.instance_timestamp', _instance_timestamp);
+            localStorage.setItem ('aws.ec2.instances', JSON.stringify (_instances));
 
             callback (_instances);
         });
