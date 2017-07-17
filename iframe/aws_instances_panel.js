@@ -47,7 +47,7 @@ function aws_instances_panel () {
             _instances = instances;
             console.log ("[aws_instances_panel.init] reloading " + instances.length + " instances...");
             reload_instances ();
-        });
+        }, true);
     }
 
     function on_hide_settings_modal ()

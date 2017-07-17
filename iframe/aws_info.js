@@ -72,26 +72,39 @@ function aws_info () {
         return false;
     }
 
-    _self.list_instances = function (callback)
+    _self.list_instances = function (callback, ignore_cache)
     {
         console.debug ("[aws_info.list_instances] entering...");
 
+        if (typeof ignore_cache === 'undefined')
+        {
+            ignore_cache = false;
+        }
+
         var ec2 = new AWS.EC2();
 
-        _instance_timestamp = localStorage.getItem ('aws.ec2.instance_timestamp');
-        var ins_str = localStorage.getItem ('aws.ec2.instances');
-        if (ins_str !== null)
+        if (!ignore_cache)
         {
-            try
+            _instance_timestamp = localStorage.getItem ('aws.ec2.instance_timestamp');
+            var ins_str = localStorage.getItem ('aws.ec2.instances');
+            if (ins_str !== null)
             {
-                _instances = JSON.parse (ins_str);
-            }
-            catch (e)
-            {
-                _instances = [];
-                _instance_timestamp = 0;
+                try
+                {
+                    _instances = JSON.parse (ins_str);
+                }
+                catch (e)
+                {
+                    _instances = [];
+                    _instance_timestamp = 0;
+                }
             }
         }
+        else
+        {
+            console.log ("[aws_info.list_instances] ignore_cache = true");
+        }
+
 
         //console.debug ("[aws_info.list_instances] _instance_timestamp: ", _instance_timestamp);
         //console.debug ("[aws_info.list_instances] _instances: ", _instances);
