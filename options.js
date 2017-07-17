@@ -11,7 +11,7 @@ function options_manager ()
         _settings_mgr.init (function () {
             var settings = _settings_mgr.get_settings ();
             console.log ('loading settings: ', settings);
-            document.getElementById ('settings_json').value = JSON.stringify (settings);
+            document.getElementById ('settings_json').value = JSON.stringify (settings, null, 2);
         });
     };
 
