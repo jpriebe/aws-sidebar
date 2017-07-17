@@ -1,9 +1,5 @@
 - validate all filter input, etc.
 
-- fix jiggly tab graphic
-
-- highlight instances on hover
-
 - add special hyperlinks for each instance (netdata, grafana, ssh, etc.)
 
 - add a reload button to instances panel to force reload from EC2

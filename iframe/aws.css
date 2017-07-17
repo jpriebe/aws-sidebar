@@ -64,6 +64,25 @@ html, body {
     margin-bottom: -1px;
 }
 
+.small-card:hover {
+    text-decoration: none;
+    background-color: #f7f7f9;
+}
+
+.small-card .card-header:hover {
+    text-decoration: none;
+    background-color: #f7f7f9;
+}
+
+.small-card .card-header a {
+    cursor: pointer;
+}
+
+.small-card .card-header a:hover {
+    text-decoration: none;
+    color: #0275d8;
+}
+
 .small-card:first-child {
     border-top-right-radius: .25rem;
     border-top-left-radius: .25rem;
