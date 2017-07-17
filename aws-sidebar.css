@@ -31,8 +31,9 @@
   height: 126px !important;
   z-index: 999999;
   text-indent: -100000px;
+  box-sizing: content-box;
 }
 #AWStab:hover {
   border-right: 4px solid #fc9800;
-  width: 28px !important;
+  width: 24px !important;
 }

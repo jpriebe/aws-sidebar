@@ -6,8 +6,6 @@
 
 - allow customization of which fields are shown in the details view?
 
-- dark theme?
-
 - opacity of panel?
 
 - add other resources (ELB?)
