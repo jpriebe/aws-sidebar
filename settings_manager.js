@@ -3,7 +3,7 @@ function settings_manager () {
 
     var _settings = {
         'sync': {
-            selected_services: [],
+            selected_cservices: [],
             selected_pservices: []
         },
         'local': {

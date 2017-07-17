@@ -1,14 +1,12 @@
-var all_pservices = [];
-var all_services_lookup = {};
 var _settings = null;
 var _console_panel = null;
 var _pricing_panel = null;
 var _instances_panel = null;
 
 
-function on_selected_services_changed (selected)
+function on_selected_cservices_changed (selected)
 {
-    _settings.sync.selected_services = selected;
+    _settings.sync.selected_cservices = selected;
     save_settings ();
 }
 
@@ -79,7 +77,7 @@ function init_ui ()
         ]);
     }
 
-    _console_panel = new link_listgroup_panel (all_services, _settings.sync.selected_services, on_selected_services_changed, '#selected-services', '#form-select-services');
+    _console_panel = new link_listgroup_panel (all_services, _settings.sync.selected_cservices, on_selected_cservices_changed, '#selected-cservices', '#form-select-cservices');
     _pricing_panel = new link_listgroup_panel (pricing_services, _settings.sync.selected_pservices, on_selected_pservices_changed, '#selected-pservices', '#form-select-pservices');
 
     console.log ("[init_ui] done.");

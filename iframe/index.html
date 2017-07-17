@@ -19,27 +19,21 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#tabpanel-services" role="tab">Services</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-toggle="tab" href="#tabpanel-pricing" role="tab">Pricing</a>
+        <a class="nav-link active" data-toggle="tab" href="#tabpanel-console" role="tab">Console</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" data-toggle="tab" id="tab-instances" href="#tabpanel-instances" role="tab">Instances</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#tabpanel-pricing" role="tab">Pricing</a>
+    </li>
 </ul>
 
 <div class="tab-content">
-    <div id="tabpanel-services" class="tab-pane fade show active" role="tabpanel">
-        <div id="selected-services">
+    <div id="tabpanel-console" class="tab-pane fade show active" role="tabpanel">
+        <div id="selected-cservices">
         </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-services" aria-label="Settings">
-        </button>
-    </div>
-    <div id="tabpanel-pricing" class="tab-pane fade" role="tabpanel">
-        <div id="selected-pservices">
-        </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-pservices" aria-label="Settings">
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-cservices" aria-label="Settings">
         </button>
     </div>
     <div id="tabpanel-instances" class="tab-pane fade" role="tabpanel">
@@ -55,20 +49,26 @@
         <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-aws-settings" aria-label="Settings">
         </button>
     </div>
+    <div id="tabpanel-pricing" class="tab-pane fade" role="tabpanel">
+        <div id="selected-pservices">
+        </div>
+        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-pservices" aria-label="Settings">
+        </button>
+    </div>
 </div>
 
-<div class="modal fade" id="modal-select-services" tabindex="-1" role="dialog"
-     aria-labelledby="modal-label-select-services" aria-hidden="true">
+<div class="modal fade" id="modal-select-cservices" tabindex="-1" role="dialog"
+     aria-labelledby="modal-label-select-cservices" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modal-label-select-services">Select services</h5>
+                <h5 class="modal-title" id="modal-label-select-cservices">Select services</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="form-select-services"></form>
+                <form id="form-select-cservices"></form>
             </div>
         </div>
     </div>
