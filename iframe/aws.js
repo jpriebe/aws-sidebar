@@ -1,161 +1,24 @@
 var all_pservices = [];
 var all_services_lookup = {};
 var _settings = null;
+var _console_panel = null;
+var _pricing_panel = null;
 var _instances_panel = null;
 
-function reload_all_services ()
+
+function on_selected_services_changed (selected)
 {
-    var i;
-
-    var sel = {};
-    for (i = 0; i < _settings.sync.selected_services.length; i++)
-    {
-        var id = _settings.sync.selected_services[i];
-
-        sel[id] = 1;
-    }
-
-    var all_services_list = $("<div />", { class: 'list-group' });
-    for (i = 0; i < all_services.length; i++)
-    {
-        var id = all_services[i][0];
-        var name = all_services[i][1];
-
-        var checked = '';
-
-        if (typeof sel[id] !== 'undefined')
-        {
-            checked = " checked=\"checked\"";
-        }
-
-        var cb = $("<label class=\"custom-control custom-checkbox\">"
-            + "<input type=\"checkbox\" class=\"custom-control-input\" name=\"service_" + i
-            + "\" value=\"" + id + "\"" + checked + ">"
-            + "<span class=\"custom-control-indicator\"></span>"
-            + "<span class=\"custom-control-description\">" + name + "</span></label>"
-        );
-
-        all_services_list.append (cb);
-    }
-
-    $('#form-select-services').empty ();
-    $('#form-select-services').append (all_services_list);
-
-
-    sel = {};
-    for (i = 0; i < _settings.sync.selected_pservices.length; i++)
-    {
-        var id = _settings.sync.selected_pservices[i];
-
-        sel[id] = 1;
-    }
-
-    var all_pservices_list = $("<div />", { class: 'list-group' });
-    for (i = 0; i < all_pservices.length; i++)
-    {
-        var id = all_pservices[i][0];
-        var name = all_pservices[i][1];
-
-        var checked = '';
-
-        if (typeof sel[id] !== 'undefined')
-        {
-            checked = " checked=\"checked\"";
-        }
-
-        var cb = $("<label class=\"custom-control custom-checkbox\">"
-            + "<input type=\"checkbox\" class=\"custom-control-input\" name=\"service_" + i
-            + "\" value=\"" + id + "\"" + checked + ">"
-            + "<span class=\"custom-control-indicator\"></span>"
-            + "<span class=\"custom-control-description\">" + name + "</span></label>"
-        );
-
-        all_pservices_list.append (cb);
-    }
-
-    $('#form-select-pservices').empty ();
-    $('#form-select-pservices').append (all_pservices_list);
-}
-
-
-
-function reload_selected_services ()
-{
-    var div = $("<div />", { class: 'list-group' });
-    for (var i = 0; i < _settings.sync.selected_services.length; i++)
-    {
-        var id =  _settings.sync.selected_services[i];
-        var name = all_services_lookup[id][1];
-        var url = all_services_lookup[id][3];
-        var e = $("<a>", {
-            class: 'list-group-item list-group-item-action',
-            text: name,
-            href: url,
-            target: '_top'
-        });
-        div.append(e);
-    }
-
-    $('#selected-services').empty ();
-    $('#selected-services').append (div);
-}
-
-
-function reload_selected_pservices ()
-{
-    var div = $("<div />", { class: 'list-group' });
-    for (var i = 0; i < _settings.sync.selected_pservices.length; i++)
-    {
-        var id =  _settings.sync.selected_pservices[i];
-        var name = all_services_lookup[id][1];
-        var url = all_services_lookup[id][3];
-        var e = $("<a>", {
-            class: 'list-group-item list-group-item-action',
-            text: name,
-            href: url,
-            target: '_top'
-        });
-        div.append(e);
-    }
-
-    $('#selected-pservices').empty ();
-    $('#selected-pservices').append (div);
-}
-
-function on_hide_select_services_modal ()
-{
-    _settings.sync.selected_services = [];
-
-    for (var i = 0; i < all_services.length; i++)
-    {
-        var selector = "#form-select-services input[name='service_" + i + "']";
-        if ($(selector).is(':checked'))
-        {
-            _settings.sync.selected_services.push (all_services[i][0]);
-        }
-    }
-
+    _settings.sync.selected_services = selected;
     save_settings ();
-    reload_selected_services ();
 }
 
-
-function on_hide_select_pservices_modal ()
+function on_selected_pservices_changed (selected)
 {
-    _settings.sync.selected_pservices = [];
-
-    for (var i = 0; i < all_pservices.length; i++)
-    {
-        var selector = "#form-select-pservices input[name='service_" + i + "']";
-        if ($(selector).is(':checked'))
-        {
-            _settings.sync.selected_pservices.push (all_pservices[i][0]);
-        }
-    }
-
+    _settings.sync.selected_pservices = selected;
     save_settings ();
-    reload_selected_pservices ();
 }
+
+
 
 function save_settings ()
 {
@@ -177,8 +40,6 @@ function on_button_close_click ()
 function init_ui ()
 {
     console.log ("[init_ui] entering...");
-    $('#modal-select-services').on ('hide.bs.modal', on_hide_select_services_modal);
-    $('#modal-select-pservices').on ('hide.bs.modal', on_hide_select_pservices_modal);
     $('#button-close').click (on_button_close_click);
 
     _instances_panel = new aws_instances_panel ();
@@ -202,14 +63,24 @@ function init_ui ()
         $('[href="' + lastTab + '"]').tab('show');
     }
 
-    console.log ("[init_ui] loading selected services...");
-    reload_selected_services ();
-    console.log ("[init_ui] loading selected pricing services...");
-    reload_selected_pservices ();
-    console.log ("[init_ui] loading all services...");
-    reload_all_services ();
+    // filter out the service listings that have pricing info
+    var pricing_services = [];
+    for (var i = 0; i < all_services.length; i++)
+    {
+        if (!all_services[i][3])
+        {
+            continue;
+        }
 
+        pricing_services.push ([
+            all_services[i][0],
+            all_services[i][1],
+            all_services[i][3]
+        ]);
+    }
 
+    _console_panel = new link_listgroup_panel (all_services, _settings.sync.selected_services, on_selected_services_changed, '#selected-services', '#form-select-services');
+    _pricing_panel = new link_listgroup_panel (pricing_services, _settings.sync.selected_pservices, on_selected_pservices_changed, '#selected-pservices', '#form-select-pservices');
 
     console.log ("[init_ui] done.");
 }
@@ -231,28 +102,8 @@ function set_message_listener ()
 
 
 
-// compute the list of pricing services (services for which we have pricing URLs)
-function process_services ()
-{
-    all_pservices = [];
-    all_services_lookup = {};
-    for (var i = 0; i < all_services.length; i++)
-    {
-        var id = all_services[i][0];
-
-        // if we have a pricing URL for this service, include it
-        if (all_services[i][3])
-        {
-            all_pservices.push (all_services[i]);
-        }
-
-        all_services_lookup[id] = all_services[i];
-    }
-}
-
 function init ()
 {
-    process_services ();
     set_message_listener ();
 
     console.log ("[init] calling get_settings...");
