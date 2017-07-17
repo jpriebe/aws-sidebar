@@ -15,9 +15,12 @@ html, body {
     background: none;
 }
 
-.icon-button:focus,.icon-button:active {
+.icon-button:focus,.icon-button:active,
+button.close:focus,button.close:active {
     outline: none !important;
 }
+
+
 
 #selected-services, #selected-pservices {
     margin-top: 4px;
