@@ -1,12 +1,12 @@
-.aws-sidebar .list-group {
-    overflow: scroll;
+html, body {
+    height: 100%;
 }
 
-.aws-sidebar .list-group-item {
+.list-group-item {
     padding: .25rem 1.25rem;
 }
 
-.aws-sidebar .icon-button {
+.icon-button {
     height: 24px;
     width: 24px;
     padding: 4px;
@@ -15,27 +15,47 @@
     background: none;
 }
 
+.icon-button:focus,.icon-button:active {
+    outline: none !important;
+}
+
 #selected-services, #selected-pservices {
     margin-top: 4px;
     margin-bottom: 4px;
 }
 
-.aws-sidebar .button-bottom-right {
-    display: block;
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
+.button-right {
+    float: right;
 }
 
-.aws-sidebar .tab-content {
+.tab-pane {
+    flex: 1;
+}
+
+.tab-content {
+    flex: 1;
     margin: 4px;
 }
 
-.aws-sidebar .list-group {
+.tab-content>.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.tabpanel-main-content {
+    flex: 1 1;
+    overflow-y: auto;
+}
+
+.tabpanel-footer {
+    height: 32px;
+}
+
+.list-group {
     margin: 4px;
 }
 
-.aws-sidebar .nav-tabs {
+.nav-tabs {
     margin: 4px;
 }
 
@@ -78,22 +98,23 @@
     padding: 0.25rem;
 }
 
-.aws-sidebar .stylish-input-group
+.stylish-input-group
 {
     margin-bottom: 4px;
 }
 
-.aws-sidebar .stylish-input-group .input-group-addon {
+.stylish-input-group .input-group-addon {
     background: white !important;
 }
 
-.aws-sidebar  .stylish-input-group .form-control {
+.stylish-input-group .form-control {
     border-right:0;
     box-shadow:0 0 0;
     border-color:#ccc;
     padding: .25rem .3rem;
 }
-.aws-sidebar .stylish-input-group button {
+
+.stylish-input-group button {
     border:0;
     background:transparent;
 

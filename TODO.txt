@@ -1,9 +1,5 @@
 - validate all filter input, etc.
 
-- scrolling bugs with list groups, position of settings button
-
-- empty scrollbar next to modal forms
-
 - fix jiggly tab graphic
 
 - highlight instances on hover

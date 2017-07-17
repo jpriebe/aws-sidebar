@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="aws.css">
     <link rel="stylesheet" href="icon-styles.css">
 </head>
-<body class="aws-sidebar">
+<body class="aws-sidebar d-flex flex-column">
 <div class="title-bar">
     <span class="icon-button icon-aws"></span>&nbsp;AWS Sidebar
     <button id="button-close" type="button" class="close" aria-label="Close">
@@ -29,12 +29,14 @@
     </li>
 </ul>
 
-<div class="tab-content">
+<div class="tab-content d-flex flex-column">
     <div id="tabpanel-console" class="tab-pane fade show active" role="tabpanel">
-        <div id="selected-cservices">
+        <div id="selected-cservices" class="tabpanel-main-content">
         </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-cservices" aria-label="Settings">
-        </button>
+        <div class="tabpanel-footer">
+            <button role="button" class="icon-button icon-cog button-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-cservices" aria-label="Settings">
+            </button>
+        </div>
     </div>
     <div id="tabpanel-instances" class="tab-pane fade" role="tabpanel">
         <div class="input-group stylish-input-group">
@@ -44,16 +46,20 @@
                 </button>
             </span>
         </div>
-        <div id="instances">
+        <div id="instances" class="tabpanel-main-content">
         </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-aws-settings" aria-label="Settings">
-        </button>
+        <div class="tabpanel-footer">
+            <button role="button" class="icon-button icon-cog button-right" aria-hidden="true" data-toggle="modal" data-target="#modal-aws-settings" aria-label="Settings">
+            </button>
+        </div>
     </div>
     <div id="tabpanel-pricing" class="tab-pane fade" role="tabpanel">
-        <div id="selected-pservices">
+        <div id="selected-pservices" class="tabpanel-main-content">
         </div>
-        <button role="button" class="icon-button icon-cog button-bottom-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-pservices" aria-label="Settings">
-        </button>
+        <div class="tabpanel-footer">
+            <button role="button" class="icon-button icon-cog button-right" aria-hidden="true" data-toggle="modal" data-target="#modal-select-pservices" aria-label="Settings">
+            </button>
+        </div>
     </div>
 </div>
 
@@ -106,12 +112,12 @@
                     <div class="form-group">
                         <label for="access_key_id">AWS Access Key ID</label>
                         <input type="text" class="form-control" id="access_key_id" aria-describedby="access_key_id_help" placeholder="">
-                        <small id="access_key_id_help" class="form-text text-muted">Get your access key ID from the IAM console.  <a href=""http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
+                        <small id="access_key_id_help" class="form-text text-muted">Get your access key ID from the IAM console.  <a href="http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
                     </div>
                     <div class="form-group">
                         <label for="secret_access_key">AWS Secret Access Key</label>
                         <input type="text" class="form-control" id="secret_access_key" aria-describedby="secret_access_key_help" placeholder="">
-                        <small id="secret_access_key_help" class="form-text text-muted">Get your secret access key rom the IAM console.  <a href=""http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
+                        <small id="secret_access_key_help" class="form-text text-muted">Get your secret access key rom the IAM console.  <a href="http://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys">More info.</a></small>
                     </div>
                     <div class="form-group">
                         <label for="aws_region">Region</label>
@@ -162,7 +168,6 @@
                             </label>
                         </div>
                         <small id="instance_state_filter_help" class="form-text text-muted">This defines which EC2 instances will be loaded based on their current state.</small>
-                    </div>
                     </div>
                 </form>
             </div>
