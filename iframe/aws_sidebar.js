@@ -3,6 +3,7 @@ function aws_sidebar ()
     var _self = this;
 
     var _settings = null;
+    var _instance_cache = null;
     var _console_panel = null;
     var _pricing_panel = null;
     var _instances_panel = null;
@@ -17,6 +18,11 @@ function aws_sidebar ()
         window.parent.postMessage({
             action: 'get_settings',
             payload: null
+        }, '*');
+
+        window.parent.postMessage({
+            action: 'ls_get_item',
+            payload: 'instance_cache'
         }, '*');
     }
 
@@ -54,29 +60,38 @@ function aws_sidebar ()
 
     function init_ui ()
     {
-        console.log ("[init_ui] entering...");
+        console.debug ("[init_ui] entering...");
+        if (!(_settings && _instance_cache))
+        {
+            console.debug ("[init_ui] not ready to initialize...");
+            return;
+        }
+
         $('#button-close').click (on_button_close_click);
 
         _instances_panel = new aws_instances_panel ();
 
         $('#tab-instances').on('shown.bs.tab', function (e) {
-            _instances_panel.init (_settings);
+            _instances_panel.init (_settings, _instance_cache);
         });
 
-        console.log ("[init_ui] setting sticky tabs...");
+        console.debug ("[init_ui] setting sticky tabs...");
 
         // make tabs sticky
         // https://stackoverflow.com/questions/10523433/how-do-i-keep-the-current-tab-active-with-twitter-bootstrap-after-a-page-reload
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            // save the latest tab; use cookies if you like 'em better:
-            localStorage.setItem('lastTab', $(this).attr('href'));
+            window.parent.postMessage({
+                action: 'ls_set_item',
+                payload: [ 'lastTab', $(this).attr('href') ]
+            }, '*');
         });
 
         // go to the latest tab, if it exists:
-        var lastTab = localStorage.getItem('lastTab');
-        if (lastTab) {
-            $('[href="' + lastTab + '"]').tab('show');
-        }
+        window.parent.postMessage({
+            action: 'ls_get_item',
+            payload: 'lastTab'
+        }, '*');
+
 
         // filter out the service listings that have pricing info
         var pricing_services = [];
@@ -97,7 +112,7 @@ function aws_sidebar ()
         _console_panel = new link_listgroup_panel (all_services, _settings.sync.selected_cservices, on_selected_cservices_changed, '#selected-cservices', '#form-select-cservices');
         _pricing_panel = new link_listgroup_panel (pricing_services, _settings.sync.selected_pservices, on_selected_pservices_changed, '#selected-pservices', '#form-select-pservices');
 
-        console.log ("[init_ui] done.");
+        console.debug ("[init_ui] done.");
     }
 
     function set_message_listener ()
@@ -107,11 +122,36 @@ function aws_sidebar ()
             {
                 case 'get_settings_result':
                     _settings = e.data.payload;
-                    console.log ("[get_settings_result] got settings", _settings);
-
+                    console.debug ("[get_settings_result] got settings", _settings);
                     init_ui ();
+
+                    break;
+
+                case 'ls_get_item_result':
+                    var result = e.data.payload;
+
+                    console.debug ("[ls_get_item_result] got local storage item: " + result.key);
+
+                    switch (result.key)
+                    {
+                        case 'lastTab':
+                            var lastTab = result.value;
+                            if (lastTab) {
+                                $('[href="' + lastTab + '"]').tab('show');
+                            }
+                            break;
+
+                        case 'instance_cache':
+                            _instance_cache = (result.value) ? result.value : {};
+                            init_ui ();
+                            break;
+                    }
+
                     break;
             }
+
+
+
         }, false);
     }
 

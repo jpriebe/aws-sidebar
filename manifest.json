@@ -3,6 +3,11 @@
    "permissions": [
      "storage"
    ],
+   "sandbox": {
+     "pages": [
+       "iframe/index.html"
+     ]
+   },
    "content_scripts": [ {
       "css": [ 
         "aws-sidebar.css"
@@ -10,6 +15,7 @@
       "js": [
         "iframe/bootstrap/jquery-3.2.1.min.js",
         "settings_manager.js",
+        "local_storage_manager.js",
         "content.js"
       ],
       "matches": [ 

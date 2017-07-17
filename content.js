@@ -48,6 +48,9 @@ $(document).ready (function () {
                 create_sidebar ();
              });
         });
+
+        var local_storage_mgr = new local_storage_manager ();
+        local_storage_mgr.init ();
     }
     
     function set_message_listener ()

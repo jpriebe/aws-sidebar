@@ -103,7 +103,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="modal-label-aws-settings">AWS Settings</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <button id="btn-close-aws-settings" type="button" class="close" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
@@ -124,9 +124,10 @@
                         <input type="text" class="form-control" id="aws_region" aria-describedby="secret_access_key_help" placeholder="">
                         <small id="region_help" class="form-text text-muted">AWS region for your instances, e.g. us-east-1.</small>
                     </div>
-                    <div class="form-group">
+                    <div id="fg_instance_tag_filter" class="form-group">
                         <label for="instance_tag_filter">Instance Tag filters</label>
                         <input type="text" class="form-control" id="instance_tag_filter" aria-describedby="instance_tag_filter_help" placeholder="">
+                        <small id="instance_tag_filter_feedback" class="form-control-feedback"></small>
                         <small id="instance_tag_filter_help" class="form-text text-muted">This defines which EC2 instances will be loaded.  Enter a list of TAGNAME=REGEX filter rules, semicolon separated.  Hosts' tags must match all rules to be included.  Example: Environment=prod|test;Owner=^smith$</small>
                     </div>
                     <div class="form-group">
@@ -169,6 +170,11 @@
                         </div>
                         <small id="instance_state_filter_help" class="form-text text-muted">This defines which EC2 instances will be loaded based on their current state.</small>
                     </div>
+                    <div class="form-group">
+                        <label for="hyperlink_generator">Hyperlink generator</label>
+                        <textarea class="form-control" id="hyperlink_generator" rows="8"></textarea>
+                    </div>
+                    <small id="hyperlink_generator_help" class="form-text text-muted">Provide the body of a Javascript function to generate an array of hyperlinks.</small>
                 </form>
             </div>
         </div>

@@ -3,6 +3,8 @@ function aws_instances_panel () {
     var _aws_info = null;
     var _initialized = false;
 
+    var _instance_cache = null;
+
     var _instances = [];
     var _instance_filter = null;
 
@@ -16,7 +18,7 @@ function aws_instances_panel () {
         };
     })();
 
-    _self.init = function (settings)
+    _self.init = function (settings, instance_cache)
     {
         console.log ("[aws_instances_panel.init] settings: ", settings);
 
@@ -24,38 +26,88 @@ function aws_instances_panel () {
         {
             _settings = settings;
 
-            $('#modal-aws-settings').on ('hide.bs.modal', on_hide_settings_modal);
-
             $('#instances-filter').keyup(function() {
                 delay(function(){
                     filter_instances ();
                 }, 1000 );
             });
 
+            $('#instance_tag_filter').keyup(function() {
+                delay(function(){
+                    validate_regex ();
+                }, 1000 );
+            });
+
+            $('#modal-aws-settings').on ('hide.bs.modal', on_hide_settings_modal);
+
+            $('#btn-close-aws-settings').click (function () {
+                console.debug ("[aws_instances_panel] settings close button clicked...");
+                if (validate_regex ())
+                {
+                    console.debug ("[aws_instances_panel] validated regex(es); hiding modal");
+                    $('#modal-aws-settings').modal ('hide');
+                }
+            });
+
             load_settings_form ();
             _initialized = true;
+
+            _aws_info = new aws_info ();
+            _aws_info.init (_settings, _instance_cache);
+
+            reset_aws_info ();
         }
 
-        reset_aws_info();
     };
 
-    function reset_aws_info ()
+    function validate_regex ()
     {
-        _aws_info = new aws_info ();
-        _aws_info.init (_settings);
+        try
+        {
+            var filter = $('#instance_tag_filter').val ();
+            var filters = filter.split (";");
+            for (var i = 0; i < filters.length; i++)
+            {
+                var kv = filters[i].split ("=");
+                var regex = new RegExp(kv[1]);
+            }
+        }
+        catch (error)
+        {
+            $('#fg_instance_tag_filter').addClass ('has-danger');
+            var msg = "Invalid regex syntax '" + kv[1] + "'";
+            $('#instance_tag_filter_feedback').text (msg);
+            return false;
+        }
+
+        $('#fg_instance_tag_filter').removeClass ('has-danger');
+        $('#instance_tag_filter_feedback').text ('');
+
+        return true;
+    }
+
+    function reset_aws_info (ignore_cache)
+    {
+        if (typeof ignore_cache === 'undefined')
+        {
+            ignore_cache = false;
+        }
+
         _aws_info.list_instances (function (instances) {
             _instances = instances;
             console.log ("[aws_instances_panel.init] reloading " + instances.length + " instances...");
             reload_instances ();
-        }, true);
+        }, ignore_cache);
     }
 
-    function on_hide_settings_modal ()
+    function on_hide_settings_modal (e)
     {
+        console.debug ("[aws_instances_panel.on_hide_settings_modal] entering...");
         _settings.local.aws_access_key_id = $('#access_key_id').val ();
         _settings.local.aws_secret_access_key = $('#secret_access_key').val ();
 
         _settings.sync.aws_region = $('#aws_region').val ();
+
         _settings.sync.instance_tag_filter = $('#instance_tag_filter').val ();
 
         _settings.sync.instance_state_filter = [];
@@ -63,12 +115,14 @@ function aws_instances_panel () {
             _settings.sync.instance_state_filter.push ($(this).val());
         });
 
+        _settings.sync.hyperlink_generator = $('#hyperlink_generator').val ();
+
         window.parent.postMessage ({
             action: 'save_settings',
             payload: _settings
         }, '*');
 
-        reset_aws_info ();
+        reset_aws_info (true);
     }
 
     function load_settings_form ()
@@ -85,6 +139,9 @@ function aws_instances_panel () {
             var state = _settings.sync.instance_state_filter[i];
             $(":checkbox[name='instance_state_filter'][value='" + state + "']").attr('checked', true);
         }
+
+        $('#hyperlink_generator').val (_settings.sync.hyperlink_generator);
+
     }
 
     function filter_instances ()
@@ -122,6 +179,12 @@ function aws_instances_panel () {
             'aria-multiselectable': 'true',
             'id': 'instances-collapse'
         });
+
+        if (_settings.sync.hyperlink_generator)
+        {
+            var hg_str = "function hyperlink_generator (instance) {\n" +  _settings.sync.hyperlink_generator + "\n" + "}";
+            eval (hg_str);
+        }
 
         for (var i = 0; i < _instances.length; i++)
         {
@@ -224,8 +287,14 @@ function aws_instances_panel () {
 
             detail_str += '</td></tr>';
 
-            detail_str += '</table>'
-                + '<a href="ssh://' + ins.private_ip_address + '/">ssh</a><br />';
+            detail_str += '</table>';
+
+            if (_settings.sync.hyperlink_generator)
+            {
+                var links = hyperlink_generator (ins);
+                detail_str += "<strong>Links</strong>: " + links.join (" &middot; ") + "<br />\n";
+            }
+
 
             details = $(detail_str);
 
