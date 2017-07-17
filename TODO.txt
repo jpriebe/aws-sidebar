@@ -1,7 +1,3 @@
-- validate all filter input, etc.
-
-- add special hyperlinks for each instance (netdata, grafana, ssh, etc.)
-
 - add a reload button to instances panel to force reload from EC2
 
 - allow customization of which fields are shown in the details view?
