@@ -93,13 +93,13 @@ function aws_info () {
             }
         }
 
-        console.debug ("[aws_info.list_instances] _instance_timestamp: ", _instance_timestamp);
-        console.debug ("[aws_info.list_instances] _instances: ", _instances);
+        //console.debug ("[aws_info.list_instances] _instance_timestamp: ", _instance_timestamp);
+        //console.debug ("[aws_info.list_instances] _instances: ", _instances);
 
         // @TODO - save instances and timestamp somewhere that they can survive a page reload
         if (_instance_timestamp > Date.now() - 300000)
         {
-            console.log ("[aws_info.list_instances] using cached instance data: ", _instances);
+            console.log ("[aws_info.list_instances] using cached instance data");
             callback (_instances);
             return;
         }
@@ -115,7 +115,7 @@ function aws_info () {
 
                 var ins = data.Reservations[i].Instances[0];
 
-                console.log ("instance: ", ins);
+                //console.log ("instance: ", ins);
 
                 info.instance_id = ins.InstanceId;
                 info.state = ins.State.Name;
@@ -162,7 +162,7 @@ function aws_info () {
                     });
                 }
 
-                console.debug ("info: ", info);
+                //console.debug ("info: ", info);
 
                 if (test_tag_filter (_data_tag_filter, info) && test_state_filter (_data_state_filter, info))
                 {

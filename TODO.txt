@@ -1,5 +1,3 @@
-- if sidebar is closed on init, delay load of all contents
-
 - validate all filter input, etc.
 
 - scrolling bugs with list groups, position of settings button
