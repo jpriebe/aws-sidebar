@@ -130,7 +130,7 @@ function aws_sidebar ()
                 case 'ls_get_item_result':
                     var result = e.data.payload;
 
-                    console.debug ("[ls_get_item_result] got local storage item: " + result.key);
+                    console.debug ("[ls_get_item_result] got local storage item " + result.key);
 
                     switch (result.key)
                     {

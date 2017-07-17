@@ -7,9 +7,9 @@ function aws_info (instance_cache) {
     var _data_tag_filter = '';
     var _data_state_filter = '';
 
-    _self.init = function (settings, instance_cache)
+    _self.init = function (settings, instance_cache_json)
     {
-        console.debug ("[init] entering...");
+        console.debug ("[aws_info.init] entering...");
 
         AWS.config.region = settings.sync.aws_region;
         AWS.config.credentials = new AWS.Credentials ({
@@ -20,18 +20,19 @@ function aws_info (instance_cache) {
         _data_tag_filter = settings.sync.instance_tag_filter;
         _data_state_filter = settings.sync.instance_state_filter;
 
-        if (instance_cache)
+        if (instance_cache_json)
         {
             try
             {
-                _instances = JSON.parse (instance_cache);
-                if (typeof _instance_cache.timestamp !== 'undefined')
+                var instance_cache = JSON.parse (instance_cache_json);
+
+                if (typeof instance_cache.timestamp !== 'undefined')
                 {
-                    _instance_timestamp = _instance_cache.timestamp;
+                    _instance_timestamp = instance_cache.timestamp;
                 }
-                if (typeof _instance_cache.instances !== 'undefined')
+                if (typeof instance_cache.instances !== 'undefined')
                 {
-                    _instances = _instance_cache.instances;
+                    _instances = instance_cache.instances;
                 }
             }
             catch (e)

@@ -3,8 +3,6 @@ function aws_instances_panel () {
     var _aws_info = null;
     var _initialized = false;
 
-    var _instance_cache = null;
-
     var _instances = [];
     var _instance_filter = null;
 
@@ -20,7 +18,7 @@ function aws_instances_panel () {
 
     _self.init = function (settings, instance_cache)
     {
-        console.log ("[aws_instances_panel.init] settings: ", settings);
+        console.debug ("[aws_instances_panel.init] settings: ", settings);
 
         if (!_initialized)
         {
@@ -53,7 +51,7 @@ function aws_instances_panel () {
             _initialized = true;
 
             _aws_info = new aws_info ();
-            _aws_info.init (_settings, _instance_cache);
+            _aws_info.init (_settings, instance_cache);
 
             reset_aws_info ();
         }
