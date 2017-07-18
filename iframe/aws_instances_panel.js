@@ -256,10 +256,17 @@ function aws_instances_panel () {
 
             var name = ins.name;
 
+            var detail_fields = [];
+            if (typeof ins.private_ip_address !== 'undefined')
+            {
+                detail_fields.push (ins.private_ip_address);
+            }
+            detail_fields.push (ins.instance_type);
+            detail_fields.push (ins.state);
+
             details = $('<p class="instance-details-header">'
-                + ins.private_ip_address + ' &middot; '
-                + ins.instance_type + ' &middot; '
-                + ins.state + '</p>');
+                    + detail_fields.join (' &middot; ')
+                    + '</p>');
 
             var e = $('<div>', { 'class': 'card small-card' })
             var e1 = $('<div>', { 'class': 'card-header', 'role': 'tab', 'id': 'collapse-heading-' + i, });
@@ -346,7 +353,7 @@ function aws_instances_panel () {
             detail_str += '</table>';
 
 
-            if (typeof ins.links !== 'undefined')
+            if ((typeof ins.links !== 'undefined') && (ins.links.length > 0))
             {
                 detail_str += "<strong>Links</strong>: " + ins.links.join (" &middot; ") + "<br />\n";
             }
