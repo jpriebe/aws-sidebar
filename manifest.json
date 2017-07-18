@@ -5,7 +5,7 @@
    ],
    "sandbox": {
      "pages": [
-       "iframe/index.html"
+       "iframe/sandbox.html"
      ]
    },
    "content_scripts": [ {
@@ -15,7 +15,6 @@
       "js": [
         "iframe/bootstrap/jquery-3.2.1.min.js",
         "settings_manager.js",
-        "local_storage_manager.js",
         "content.js"
       ],
       "matches": [ 
@@ -40,5 +39,5 @@
    },
    "description": "AWS Console Navigation Sidebar for Chrome",
    "name": "AWS Sidebar",
-   "version": "1.0.0"
+   "version": "1.0.1"
 }

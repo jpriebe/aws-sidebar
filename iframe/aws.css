@@ -166,3 +166,10 @@ button.close:focus,button.close:active {
     color: #fff;
     margin-bottom: 4px;
 }
+
+#sandbox-placeholder {
+    display: block;
+    border: none;
+    width: 1px;
+    height: 1px;
+}

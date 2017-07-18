@@ -16,7 +16,7 @@ function aws_instances_panel () {
         };
     })();
 
-    _self.init = function (settings, instance_cache)
+    _self.init = function (settings)
     {
         console.debug ("[aws_instances_panel.init] settings: ", settings);
 
@@ -47,16 +47,45 @@ function aws_instances_panel () {
                 }
             });
 
-            load_settings_form ();
-            _initialized = true;
-
-            _aws_info = new aws_info ();
-            _aws_info.init (_settings, instance_cache);
-
-            reset_aws_info ();
+            setup_sandbox();
         }
-
     };
+
+    function finish_init ()
+    {
+        load_settings_form ();
+        _initialized = true;
+
+        _aws_info = new aws_info ();
+        _aws_info.init (_settings);
+
+        reset_aws_info ();
+    }
+
+    function setup_sandbox ()
+    {
+        window.addEventListener ('message', function (e) {
+            switch (e.data.action)
+            {
+                case 'sandbox_ready':
+                    finish_init ();
+                    break;
+
+                case 'hyperlinks_generated':
+                    var instances = JSON.parse (e.data.payload);
+                    render_instances (instances);
+                    break;
+            }
+
+        }, false);
+
+        var sandbox_iframe = $("<iframe />").attr ({
+            'id': 'sandbox',
+            'src': chrome.extension.getURL ('iframe/sandbox.html'),
+            'style': 'border: none'
+        });
+        $('#sandbox-placeholder').append (sandbox_iframe);
+    }
 
     function validate_regex ()
     {
@@ -170,7 +199,42 @@ function aws_instances_panel () {
     }
 
 
-    function reload_instances ()
+    function reload_instances () {
+
+        var display_instances = [];
+        for (var i = 0; i < _instances.length; i++)
+        {
+            var ins = _instances[i];
+
+            if (_instance_filter !== null)
+            {
+                if (!filter_instance (ins))
+                {
+                    continue;
+                }
+            }
+
+            display_instances.push (ins);
+        }
+
+        if (_settings.sync.hyperlink_generator)
+        {
+            var sandbox = document.getElementById( 'sandbox' );
+            sandbox.contentWindow.postMessage ({
+                action: 'generate_hyperlinks',
+                payload: JSON.stringify ({
+                    'jscode': _settings.sync.hyperlink_generator,
+                    'instances': display_instances
+                })
+            }, '*');
+        }
+        else
+        {
+            render_instances (display_instances);
+        }
+    }
+
+    function render_instances (instances)
     {
         var div = $("<div />", {
             'role': 'tablist',
@@ -178,15 +242,9 @@ function aws_instances_panel () {
             'id': 'instances-collapse'
         });
 
-        if (_settings.sync.hyperlink_generator)
+        for (var i = 0; i < instances.length; i++)
         {
-            var hg_str = "function hyperlink_generator (instance) {\n" +  _settings.sync.hyperlink_generator + "\n" + "}";
-            eval (hg_str);
-        }
-
-        for (var i = 0; i < _instances.length; i++)
-        {
-            var ins = _instances[i];
+            var ins = instances[i];
 
             if (_instance_filter !== null)
             {
@@ -287,12 +345,11 @@ function aws_instances_panel () {
 
             detail_str += '</table>';
 
-            if (_settings.sync.hyperlink_generator)
-            {
-                var links = hyperlink_generator (ins);
-                detail_str += "<strong>Links</strong>: " + links.join (" &middot; ") + "<br />\n";
-            }
 
+            if (typeof ins.links !== 'undefined')
+            {
+                detail_str += "<strong>Links</strong>: " + ins.links.join (" &middot; ") + "<br />\n";
+            }
 
             details = $(detail_str);
 
@@ -306,8 +363,6 @@ function aws_instances_panel () {
         $('#instances').empty ();
         $('#instances').append (div);
     }
-
-
 
 
     return _self;

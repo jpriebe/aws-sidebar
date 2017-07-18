@@ -7,7 +7,7 @@ function aws_info (instance_cache) {
     var _data_tag_filter = '';
     var _data_state_filter = '';
 
-    _self.init = function (settings, instance_cache_json)
+    _self.init = function (settings)
     {
         console.debug ("[aws_info.init] entering...");
 
@@ -19,28 +19,6 @@ function aws_info (instance_cache) {
 
         _data_tag_filter = settings.sync.instance_tag_filter;
         _data_state_filter = settings.sync.instance_state_filter;
-
-        if (instance_cache_json)
-        {
-            try
-            {
-                var instance_cache = JSON.parse (instance_cache_json);
-
-                if (typeof instance_cache.timestamp !== 'undefined')
-                {
-                    _instance_timestamp = instance_cache.timestamp;
-                }
-                if (typeof instance_cache.instances !== 'undefined')
-                {
-                    _instances = instance_cache.instances;
-                }
-            }
-            catch (e)
-            {
-                // not parseable; just keep the empty defaults
-            }
-        }
-
     };
 
     function test_tag_filter (filter, instance)
@@ -113,6 +91,40 @@ function aws_info (instance_cache) {
 
         //console.debug ("[aws_info.list_instances] _instance_timestamp: ", _instance_timestamp);
         //console.debug ("[aws_info.list_instances] _instances: ", _instances);
+
+        if (!ignore_cache)
+        {
+            var instance_cache = localStorage.getItem ('instance_cache');
+
+            if (instance_cache)
+            {
+                try
+                {
+                    instance_cache = JSON.parse (instance_cache);
+                }
+                catch (e)
+                {
+                    instance_cache = null;
+                }
+            }
+
+            console.debug ("[aws_info.list_instances] instance_cache: ", instance_cache);
+
+            if (instance_cache && (typeof instance_cache.timestamp !== 'undefined'))
+            {
+                _instance_timestamp = instance_cache.timestamp;
+                _instances = instance_cache.instances;
+            }
+            else
+            {
+                _instances = [];
+                _instance_timestamp = 0;
+            }
+        }
+        else
+        {
+            console.log ("[aws_info.list_instances] ignore_cache = true");
+        }
 
         if (_instance_timestamp > Date.now() - 300000)
         {
@@ -210,10 +222,8 @@ function aws_info (instance_cache) {
                 instances: _instances
             };
 
-            window.parent.postMessage({
-                action: 'ls_set_item',
-                payload: [ 'instance_cache', JSON.stringify (instance_cache) ]
-            }, '*');
+            console.debug ("[aws_info] storing instance cache: ", instance_cache);
+            localStorage.setItem ('instance_cache', JSON.stringify (instance_cache));
 
             callback (_instances);
         });
