@@ -130,7 +130,7 @@ function aws_info (instance_cache) {
                 }
             }
 
-            console.debug ("[aws_info.list_instances] instance_cache: ", instance_cache);
+            // console.debug ("[aws_info.list_instances] instance_cache: ", instance_cache);
 
             if (instance_cache && (typeof instance_cache.timestamp !== 'undefined'))
             {
@@ -213,7 +213,7 @@ function aws_info (instance_cache) {
                     });
                 }
 
-                console.debug ("info: ", JSON.stringify (info, null, 2));
+                // console.debug ("info: ", JSON.stringify (info, null, 2));
 
                 if (test_tag_filter (_data_tag_filter, info) && test_state_filter (_data_state_filter, info))
                 {
@@ -244,7 +244,7 @@ function aws_info (instance_cache) {
                 instances: _instances
             };
 
-            console.debug ("[aws_info] storing instance cache: ", instance_cache);
+            // console.debug ("[aws_info] storing instance cache: ", instance_cache);
             localStorage.setItem ('instance_cache', JSON.stringify (instance_cache));
 
             callback (_instances);
