@@ -149,6 +149,9 @@ function aws_instances_panel () {
             payload: _settings
         }, '*');
 
+        _aws_info = new aws_info ();
+        _aws_info.init (_settings);
+
         reset_aws_info (true);
     }
 
@@ -161,10 +164,14 @@ function aws_instances_panel () {
         $('#instance_tag_filter').val (_settings.sync.instance_tag_filter);
 
         $(":checkbox[name='instance_state_filter']").attr('checked', false);
-        for (var i = 0; i < _settings.sync.instance_state_filter.length; i++)
+
+        if (typeof _settings.sync.instance_state_filter !== 'undefined')
         {
-            var state = _settings.sync.instance_state_filter[i];
-            $(":checkbox[name='instance_state_filter'][value='" + state + "']").attr('checked', true);
+            for (var i = 0; i < _settings.sync.instance_state_filter.length; i++)
+            {
+                var state = _settings.sync.instance_state_filter[i];
+                $(":checkbox[name='instance_state_filter'][value='" + state + "']").attr('checked', true);
+            }
         }
 
         $('#hyperlink_generator').val (_settings.sync.hyperlink_generator);

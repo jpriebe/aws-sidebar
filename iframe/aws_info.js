@@ -3,6 +3,8 @@ function aws_info (instance_cache) {
     var _instances = [];
     var _instance_timestamp = 0;
 
+    var _fully_configured = false;
+
     // this filter governs which instances we will actually keep
     var _data_tag_filter = '';
     var _data_state_filter = '';
@@ -17,13 +19,26 @@ function aws_info (instance_cache) {
             secretAccessKey: settings.local.aws_secret_access_key
         });
 
+        if (settings.sync.aws_region && settings.local.aws_access_key_id && settings.local.aws_secret_access_key)
+        {
+            _fully_configured = true;
+        }
+
         _data_tag_filter = settings.sync.instance_tag_filter;
         _data_state_filter = settings.sync.instance_state_filter;
     };
 
     function test_tag_filter (filter, instance)
     {
-        var filters = filter.split (";");
+        filter = filter.trim ();
+        var filters = [];
+
+        if (filter !== '')
+        {
+            filters = filter.split (";");
+        }
+
+        console.debug ("[aws_info.test_tag_filter] testing tag filter '" + filter + "'; filters: ", filters);
 
         for (var i = 0; i < filters.length; i++)
         {
@@ -74,6 +89,13 @@ function aws_info (instance_cache) {
     _self.list_instances = function (callback, ignore_cache)
     {
         console.debug ("[aws_info.list_instances] entering...");
+
+        if (!_fully_configured)
+        {
+            console.log ("[aws_info.list_instances] not fully configured; returning empty array");
+            callback ([]);
+            return;
+        }
 
         if (typeof ignore_cache === 'undefined')
         {
@@ -191,7 +213,7 @@ function aws_info (instance_cache) {
                     });
                 }
 
-                //console.debug ("info: ", info);
+                console.debug ("info: ", JSON.stringify (info, null, 2));
 
                 if (test_tag_filter (_data_tag_filter, info) && test_state_filter (_data_state_filter, info))
                 {
