@@ -91,9 +91,21 @@ var all_services = [
         "https:\/\/aws.amazon.com\/cloudwatch\/pricing\/"
     ],
     [
+        "cloudwatch_events_rules",
+        "Cloudwatch \/ Events \/ Rules",
+        "https:\/\/console.aws.amazon.com\/cloudwatch\/home#rules:",
+        ""
+    ],
+    [
         "cloudwatch_logs",
-        "Cloudwatch Logs",
+        "Cloudwatch \/ Logs",
         "https:\/\/console.aws.amazon.com\/cloudwatch\/home#logs:",
+        ""
+    ],
+    [
+        "cloudwatch_metrics",
+        "Cloudwatch \/ Metrics",
+        "https:\/\/console.aws.amazon.com\/cloudwatch\/home#metricsV2:",
         ""
     ],
     [
@@ -181,34 +193,58 @@ var all_services = [
         "https:\/\/aws.amazon.com\/dynamodb\/pricing\/"
     ],
     [
+        "dynamodb_tables",
+        "DynamoDB \/ Tables",
+        "https:\/\/console.aws.amazon.com\/dynamodb\/home#tables:",
+        ""
+    ],
+    [
         "ec2",
         "EC2",
         "https:\/\/console.aws.amazon.com\/ec2\/v2\/home",
         "https:\/\/aws.amazon.com\/ec2\/pricing\/"
     ],
     [
-        "ec2_container_service",
-        "EC2 Container Service",
-        "https:\/\/console.aws.amazon.com\/ecs\/home",
-        "https:\/\/aws.amazon.com\/ecs\/pricing\/"
+        "ec2_amis",
+        "EC2 \/ AMIs",
+        "https:\/\/console.aws.amazon.com\/ec2\/v2\/home#Images:sort=desc:creationDate",
+        ""
+    ],
+    [
+        "ec2_auto_scaling_groups",
+        "EC2 \/ Auto Scaling Groups",
+        "https:\/\/console.aws.amazon.com\/ec2\/autoscaling\/home#AutoScalingGroups:",
+        ""
     ],
     [
         "ec2_ebs",
-        "EC2 EBS",
+        "EC2 \/ EBS",
         "https:\/\/console.aws.amazon.com\/ec2\/v2\/home#Volumes:",
         "https:\/\/aws.amazon.com\/ebs\/pricing\/"
     ],
     [
+        "ec2_elb",
+        "EC2 \/ ELB",
+        "https:\/\/console.aws.amazon.com\/ec2\/v2\/home#LoadBalancers:",
+        "https:\/\/aws.amazon.com\/elasticloadbalancing\/pricing\/"
+    ],
+    [
         "ec2_instances",
-        "EC2 Instances",
+        "EC2 \/ Instances",
         "https:\/\/console.aws.amazon.com\/ec2\/v2\/home#Instances:",
         ""
     ],
     [
-        "ec2_elb",
-        "EC2 ELB",
-        "https:\/\/console.aws.amazon.com\/ec2\/v2\/home#LoadBalancers:",
-        "https:\/\/aws.amazon.com\/elasticloadbalancing\/pricing\/"
+        "ec2_security_groups",
+        "EC2 \/ Security Groups",
+        "https:\/\/console.aws.amazon.com\/ec2\/v2\/home#SecurityGroups:",
+        ""
+    ],
+    [
+        "ec2_container_service",
+        "EC2 Container Service",
+        "https:\/\/console.aws.amazon.com\/ecs\/home",
+        "https:\/\/aws.amazon.com\/ecs\/pricing\/"
     ],
     [
         "efs",
@@ -227,6 +263,18 @@ var all_services = [
         "ElastiCache",
         "https:\/\/console.aws.amazon.com\/elasticache\/home",
         "https:\/\/aws.amazon.com\/elasticache\/pricing\/"
+    ],
+    [
+        "elasticache_memcached",
+        "ElastiCache \/ Memcached",
+        "https:\/\/console.aws.amazon.com\/elasticache\/home#memcached:",
+        ""
+    ],
+    [
+        "elasticache_redis",
+        "ElastiCache \/ Redis",
+        "https:\/\/console.aws.amazon.com\/elasticache\/home#redis:",
+        ""
     ],
     [
         "elastic_beanstalk",
@@ -349,8 +397,14 @@ var all_services = [
         "https:\/\/aws.amazon.com\/rds\/pricing\/"
     ],
     [
+        "rds_clusters",
+        "RDS \/ Clusters",
+        "https:\/\/console.aws.amazon.com\/rds\/home#dbclusters:",
+        ""
+    ],
+    [
         "rds_instances",
-        "RDS Instances",
+        "RDS \/ Instances",
         "https:\/\/console.aws.amazon.com\/rds\/home#dbinstances:",
         ""
     ],
@@ -373,6 +427,12 @@ var all_services = [
         "https:\/\/aws.amazon.com\/route53\/pricing\/"
     ],
     [
+        "route53_hosted_zones",
+        "Route 53 \/ Hosted Zones",
+        "https:\/\/console.aws.amazon.com\/route53\/home?#hosted-zones:",
+        ""
+    ],
+    [
         "s3",
         "S3",
         "https:\/\/console.aws.amazon.com\/s3\/home",
@@ -383,6 +443,12 @@ var all_services = [
         "SES",
         "https:\/\/console.aws.amazon.com\/ses\/home",
         "https:\/\/aws.amazon.com\/ses\/pricing\/"
+    ],
+    [
+        "ses_domains",
+        "SES \/ Domains",
+        "https:\/\/console.aws.amazon.com\/ses\/home#verified-senders-domain:",
+        ""
     ],
     [
         "swf",
