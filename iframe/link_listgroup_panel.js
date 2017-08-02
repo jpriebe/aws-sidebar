@@ -30,6 +30,7 @@ function link_listgroup_panel (all_links, selected_links, on_selected_change_cb,
 
     function on_hide_modal ()
     {
+        _selected_links = [];
         for (var i = 0; i < _all_links.length; i++)
         {
             var selector = _form_selector + " input[name='service_" + i + "']";
@@ -39,7 +40,7 @@ function link_listgroup_panel (all_links, selected_links, on_selected_change_cb,
             }
         }
 
-        _self.reload_selected_links ();
+        reload_selected_links ();
 
         _on_selected_change_cb (_selected_links);
     }

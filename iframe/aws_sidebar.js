@@ -102,8 +102,8 @@ function aws_sidebar ()
             ]);
         }
 
-        _console_panel = new link_listgroup_panel (all_services, _settings.sync.selected_cservices, on_selected_cservices_changed, '#selected-cservices', '#form-select-cservices');
-        _pricing_panel = new link_listgroup_panel (pricing_services, _settings.sync.selected_pservices, on_selected_pservices_changed, '#selected-pservices', '#form-select-pservices');
+        _console_panel = new link_listgroup_panel (all_services, _settings.sync.selected_cservices, on_selected_cservices_changed, '#selected-cservices', '#form-select-cservices', '#modal-select-cservices');
+        _pricing_panel = new link_listgroup_panel (pricing_services, _settings.sync.selected_pservices, on_selected_pservices_changed, '#selected-pservices', '#form-select-pservices', '#modal-select-pservices');
 
         console.debug ("[init_ui] done.");
     }
