@@ -8,38 +8,4 @@
 
 - add refresh button to instances panel
 
-- more deep links:
-
-  Elasticache / Memcached
-  https://console.aws.amazon.com/elasticache/home#memcached:
-
-  Elasticache / Redis
-  https://console.aws.amazon.com/elasticache/home#redis:
-
-  Cloudwatch Events / Rules
-  https://console.aws.amazon.com/cloudwatch/home#rules:
-
-  Cloudwatch Metrics
-  https://console.aws.amazon.com/cloudwatch/home#metricsV2:
-
-  DynamoDB / Tables
-  https://console.aws.amazon.com/dynamodb/home#tables:
-
-  EC2 / AMIs
-  https://console.aws.amazon.com/ec2/v2/home#SecurityGroups:
-
-  EC2 / Security Groups
-  https://console.aws.amazon.com/ec2/v2/home#SecurityGroups:
-
-  EC2 / ASGs
-  https://console.aws.amazon.com/ec2/autoscaling/home#AutoScalingGroups:
-
-  Route53 / Hosted zones
-  https://console.aws.amazon.com/route53/home?#hosted-zones:
-
-  RDS / Clusters
-  https://console.aws.amazon.com/rds/home#dbclusters:
-
-  SES / Domains
-  https://console.aws.amazon.com/ses/home#verified-senders-domain:
 

@@ -1,0 +1,5 @@
+2017-08-02  Version 1.0.4
+
+- added 11 more "deep links" to specific pages in the AWS console
+
+- bugfix: service selection in dialogs was not working
