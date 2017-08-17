@@ -17,11 +17,9 @@
         "settings_manager.js",
         "content.js"
       ],
-      "matches": [ 
-        "http://console.aws.amazon.com/*", 
-        "https://console.aws.amazon.com/*", 
-        "http://aws.amazon.com/*", 
-        "https://aws.amazon.com/*"
+      "matches": [
+        "*://aws.amazon.com/*",
+        "*://*.aws.amazon.com/*"
       ]
    } ],
   "options_ui": {
