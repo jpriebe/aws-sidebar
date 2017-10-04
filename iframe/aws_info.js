@@ -162,64 +162,68 @@ function aws_info (instance_cache) {
 
             _instances = [];
             for (var i in data.Reservations) {
-                var info = {};
 
-                var ins = data.Reservations[i].Instances[0];
-
-                //console.log ("instance: ", ins);
-
-                info.instance_id = ins.InstanceId;
-                info.state = ins.State.Name;
-                info.instance_type = ins.InstanceType;
-                info.private_ip_address = ins.PrivateIpAddress;
-                info.launch_time = ins.LaunchTime;
-                info.image_id = ins.ImageId;
-                info.az = ins.Placement.AvailabilityZone;
-
-                if (typeof ins.PublicIpAddress === 'undefined')
+                for (var j in data.Reservations[i].Instances)
                 {
-                    info.public_ip_address = '';
-                }
-                else
-                {
-                    info.public_ip_address = ins.PublicIpAddress;
-                }
+                    var info = {};
+                    var ins = data.Reservations[i].Instances[j];
 
-                info.tags = {};
-                info.name = '<unknown>';
-                info.asg = '';
-                for (var j = 0; j < ins.Tags.length; j++) {
-                    if (ins.Tags[j].Key === 'Name')
+                    //console.log ("instance: ", ins);
+
+                    info.instance_id = ins.InstanceId;
+                    info.state = ins.State.Name;
+                    info.instance_type = ins.InstanceType;
+                    info.private_ip_address = ins.PrivateIpAddress;
+                    info.launch_time = ins.LaunchTime;
+                    info.image_id = ins.ImageId;
+                    info.az = ins.Placement.AvailabilityZone;
+
+                    if (typeof ins.PublicIpAddress === 'undefined')
                     {
-                        info.name = ins.Tags[j].Value;
-                        continue;
+                        info.public_ip_address = '';
                     }
-                    if (ins.Tags[j].Key === 'aws:autoscaling:groupName')
+                    else
                     {
-                        info.asg = ins.Tags[j].Value;
-                        continue;
+                        info.public_ip_address = ins.PublicIpAddress;
                     }
 
-                    info.tags[ins.Tags[j].Key] = ins.Tags[j].Value;
+                    info.tags = {};
+                    info.name = '<unknown>';
+                    info.asg = '';
+                    for (var k = 0; k < ins.Tags.length; k++) {
+                        if (ins.Tags[k].Key === 'Name')
+                        {
+                            info.name = ins.Tags[k].Value;
+                            continue;
+                        }
+                        if (ins.Tags[k].Key === 'aws:autoscaling:groupName')
+                        {
+                            info.asg = ins.Tags[k].Value;
+                            continue;
+                        }
+
+                        info.tags[ins.Tags[k].Key] = ins.Tags[k].Value;
+                    }
+
+                    info.security_groups = [];
+                    for (k = 0; j < ins.SecurityGroups.length; j++)
+                    {
+                        var g = ins.SecurityGroups[k];
+                        info.security_groups.push ({
+                            'name': g.GroupName,
+                            'id': g.GroupId
+                        });
+                    }
+
+                    // console.debug ("info: ", JSON.stringify (info, null, 2));
+
+                    if (test_tag_filter (_data_tag_filter, info) && test_state_filter (_data_state_filter, info))
+                    {
+                        console.debug ("keeper");
+                        _instances.push (info);
+                    }
                 }
 
-                info.security_groups = [];
-                for (j = 0; j < ins.SecurityGroups.length; j++)
-                {
-                    var g = ins.SecurityGroups[j];
-                    info.security_groups.push ({
-                        'name': g.GroupName,
-                        'id': g.GroupId
-                    });
-                }
-
-                // console.debug ("info: ", JSON.stringify (info, null, 2));
-
-                if (test_tag_filter (_data_tag_filter, info) && test_state_filter (_data_state_filter, info))
-                {
-                    console.debug ("keeper");
-                    _instances.push (info);
-                }
             }
 
             console.debug ("sorting " + _instances.length + " instances...");
