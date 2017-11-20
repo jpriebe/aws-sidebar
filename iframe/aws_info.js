@@ -206,7 +206,7 @@ function aws_info (instance_cache) {
                     }
 
                     info.security_groups = [];
-                    for (k = 0; j < ins.SecurityGroups.length; j++)
+                    for (k = 0; k < ins.SecurityGroups.length; k++)
                     {
                         var g = ins.SecurityGroups[k];
                         info.security_groups.push ({
